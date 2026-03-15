@@ -37,3 +37,12 @@ export const getWeather = async (lat, lon) => {
   const data = await response.json()
   return data
 }
+
+export const getForecast = async (lat, lon) =>{
+  const response = await fetch(`https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=${apiKey}&units=metric&lang=es`)
+  if(!response){
+    throw new Error('Error to fetch forecast')
+  }
+  const data = await response.json()
+  return data
+}
