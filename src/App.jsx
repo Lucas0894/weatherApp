@@ -31,6 +31,35 @@ function App() {
   }
  }
 
+ const dailyForecast = (fore) =>{
+            const result = {}
+            fore.list.forEach((item)=>{
+                const date = item.dt_txt.split(" ")[0]
+                if(!result[date]){
+                    result[date] = {
+                        date, 
+                        img: item.weather[0].main,
+                        pop: item.pop,
+                        max : item.main.temp_max,
+                        min : item.main.temp_min
+                    }
+                } else{
+                    result[date].min = Math.min(result[date].min, item.main.temp_min)
+                    result[date].max = Math.max(result[date].max, item.main.temp_max)
+                }
+            })
+            return Object.entries(result).map(([date, temps])=> ({
+                date,
+                pop: temps.pop,
+                img: temps.img,
+                temp_min: temps.min,
+                temp_max: temps.max
+                
+            }))
+        }
+        
+        
+
  console.log(forecast)
 
  const handleSelect = async (city)=>{
@@ -48,24 +77,23 @@ function App() {
   }
  }
 
- const bgGray = "bg-gradient-to-br from-gray-400 to-gray-700"
+ const bgGray = "bg-gradient-to-br from-[#2b2e4a] via-[#3a3f6b] to-[#5a5f9f]"
 
  console.log(weather)
 
   return (
-    <div className={`min-h-screen ${bgGray} flex flex-col items-center gap-6 p-6`}>
-      <h1 className='text-white text-3xl font-bold'>App Clima</h1>
+    <div className={`min-h-screen ${bgGray} flex flex-col items-center gap-6 p-6`}>    
       <SearchBar onSearch={handleSearch} cities={cities} handleSelect={handleSelect} />
       {loader && <h3 className='text-white'>Buscando ciudad</h3>}
       {error && <h3 className='text-white'>{error}</h3>}
       {
         weather && !loader && !error && (
-          <WeatherCard weather={weather}  />
+          <WeatherCard weather={weather} forecast={forecast} dailyForecast={dailyForecast} />
         )
       }
       {
         forecast && weather && (
-          <Forecast forecast={forecast} />
+          <Forecast forecast={forecast} dailyForecast={dailyForecast} />
         )
       }
     </div>

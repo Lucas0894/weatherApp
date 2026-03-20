@@ -25,6 +25,8 @@ export const geocoding = async (city) => {
 }
 
 export const getWeather = async (lat, lon) => {
+  console.log(lat)
+  console.log(lon)
 
   const response = await fetch(
     `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${apiKey}&units=metric&lang=es`

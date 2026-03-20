@@ -4,41 +4,51 @@ import sun from "../assets/sun.png"
 import thunderstorm from "../assets/thunderstorm.png"
 import snow from "../assets/snow.png"
 import mist from "../assets/mist.png"
+import { CloudHail } from 'lucide-react';
 
-export const Forecast = ({forecast})=>{
+export const Forecast = ({forecast, dailyForecast})=>{
 
 const weatherIconMap = {
   Clear: sun,
   Clouds: cloudy,
   Rain: rain,
-  Drizzle: "solar:cloud-rain-bold",
   Thunderstorm: thunderstorm,
   Snow: snow,
   Mist: mist
 };
 
 
+const data = dailyForecast(forecast)
+
+
+      
+        
+
     if(!forecast){
         return null
     }
-
-    const daily = forecast.list.filter((item)=>{
-        return item.dt_txt.includes("12:00:00")
-    })
-    console.log(daily)
+    
+    console.log(forecast)
 
     return (
         <div className="w-full max-w-md p-4">
             <h3 className="text-white text-center font-semibold">Pronostico Extendido 5 dias</h3>
             <div className="flex flex-col gap-3 mt-4">
             {
-                daily.map((day, index)=>
+                data.slice(1,6).map((day, index)=>
                     (
-                        <div key={index} className="rounded-lg flex items-center justify-between p-4 bg-gray-800/70 ">
-                           <img src={weatherIconMap[day.weather[0].main]} width={28} inline={true} />
-                           <p className="text-white w-24">{new Date(day.dt_txt).toLocaleDateString("es-ES", { weekday: "long" })}</p>
-                           <p className="text-white ml-2 text-center">{day.main.temp_min.toFixed(1)}°</p>
-                           <p className="text-white ml-2 text-center">{day.main.temp_max.toFixed(1)}°</p>
+                        <div key={index} className="rounded-lg flex items-center justify-between p-6 bg-gray-800/70 ">
+                           <img src={weatherIconMap[day.img]} width={28} inline={true} />
+                           <div className="relative flex flex-col justify-center  w-24">
+                           <p className="text-white ">{new Date(day.date).toLocaleDateString("es-ES", { weekday: "long" })}</p>
+                           <div className="absolute top-full flex items-center gap-1 text-blue-400">
+                           <CloudHail className="mt-1" size={16} />
+                           <span className="text-sm">{Math.round(day.pop * 100)}%</span>
+                           </div>
+                           </div>
+                           <p className="text-white ml-1 text-center text-sm">{day.temp_min.toFixed(1)}°</p>
+                           <div className="text-white text-sm">/</div>
+                           <p className="text-red-500 ml-1 text-center text-sm">{day.temp_max.toFixed(1)}°</p>
                         </div>
                     )
                 )

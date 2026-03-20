@@ -5,10 +5,13 @@ import rain from "../animtations/rain.json"
 import snow from "../animtations/snow.json"
 import storm from "../animtations/storm.json"
 import mist from "../animtations/mist.json"
-import { ArrowUp, Wind, ArrowDown, Thermometer, Droplets } from 'lucide-react';
+import { ArrowUp, Wind, ArrowDown, Thermometer, Droplets, Gauge, Eye   } from 'lucide-react';
 
-export const WeatherCard = ({weather})=>{
+
+
+export const WeatherCard = ({weather, dailyForecast, forecast})=>{
     console.log(weather)
+    
 
     const weatherAnimations = {
         Clear: clear,
@@ -19,36 +22,59 @@ export const WeatherCard = ({weather})=>{
         Mist: mist
     }
 
+    const data = dailyForecast(forecast)
+    console.log(data)
+
+    
+
     const condition = weather.weather[0].main
 
     return (
-        <div className="w-full max-w-md bg-slate-800/70  rounded-xl p-6 flex flex-col items-center gap-4 transition-all duration-300">
+        <div className="w-full max-w-md bg-slate-800/50  rounded-xl p-6 flex flex-col items-center gap-6 transition-all duration-300">
           <h2 className="text-white text-xl font-semibold">{weather.customName}</h2>
-          <Lottie animationData={weatherAnimations[condition]} style={{width: 150}} loop={true} />
-          <p className="text-white text-3xl font-bold">{weather.main.temp.toFixed(1)}°</p>
-          <p className="text-white capitalize font-semibold">{weather.weather[0].description}</p>
-          <div className="flex flex-col w-full text-sm rounded-md bg-slate-800/70 backdrop-blur">
-            <div className="flex gap-2 border-b border-white/10 p-2">
+          <Lottie animationData={weatherAnimations[condition]} style={{width: 200}} loop={true} />
+          <p className="text-white -m-8 text-5xl font-bold">{weather.main.temp.toFixed(1)}°</p>
+          <p className="text-white mt-3 capitalize font-semibold">{weather.weather[0].description}</p>
+          <div className="flex -mt-6 top">
+            <div className="flex p-2 gap-1">
+                <Thermometer size={18} className="text-white" />
+                <ArrowDown size={16} className="text-white -ml-3" />
+                <p className="text-white">Min: </p>
+                <p className="text-white font-semibold">{data[0].temp_min.toFixed(1)}°</p>
+            </div>
+          <div className="flex p-2 gap-1">
+                <Thermometer className="text-white" size={18} />
+                <ArrowUp className="text-white -ml-3" size={16} />
+                <p className="text-white">Max: </p>
+                <p className="text-white font-semibold">{data[0].temp_max.toFixed(1)}°</p>
+            </div>
+            </div>
+            <div className="flex gap-1 -mt-6">
+                <p className="text-white">Sensación:</p>
+                <p className="text-white">{weather.main.feels_like}°</p>
+            </div>
+          <div className="grid grid-cols-2 w-full text-sm rounded-md bg-slate-800/70 backdrop-blur">
+            <div className="flex gap-1 border-b border-white/10 p-2">
                 <Droplets className="text-white" size={18} />
                 <p className="text-white">Humedad: </p>    
                 <p className="text-white font-semibold">{weather.main.humidity}%</p>
             </div>
-            <div className="flex gap-2 border-b border-white/10 p-2">
+            <div className="flex gap-1 border-b border-l border-white/10 p-2">
                 <Wind className="text-white" size={18} />
-                <p className="text-white">Viento: </p>
                 <p className="text-white font-semibold">{weather.wind.speed} Km/h</p>
             </div>
-            <div className="flex gap-2 border-b border-white/10 p-2">
-                <Thermometer className="text-white" size={18} />
-                <ArrowUp className="text-white -ml-3" size={16} />
-                <p className="text-white">Max: </p>
-                <p className="text-white font-semibold">{weather.main.temp_max.toFixed(1)}°</p>
+            <div className="flex gap-1 p-2">
+                <Gauge className="text-white" size={18} />
+                <p className="text-white">Presion:</p>
+                <p className="text-white font-semibold">{weather.main.pressure} hPa</p>
             </div>
-            <div className="flex gap-2 p-2">
-                <Thermometer size={18} className="text-white" />
-                <ArrowDown size={16} className="text-white -ml-3" />
-                <p className="text-white">Min: </p>
-                <p className="text-white font-semibold">{weather.main.temp_min.toFixed(1)}°</p>
+            <div className="flex gap-1 border-l border-white/10 p-2">
+                <Eye className="text-white" size={18}/>
+                <p className="text-white">Visibilidad:</p>
+                <p className="text-white font-semibold">{weather.visibility/1000} km</p>
+            </div>
+            <div>
+
             </div>
           </div>
           </div>
