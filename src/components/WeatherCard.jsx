@@ -7,12 +7,8 @@ import storm from "../animtations/storm.json"
 import mist from "../animtations/mist.json"
 import { ArrowUp, Wind, ArrowDown, Thermometer, Droplets, Gauge, Eye   } from 'lucide-react';
 
-
-
 export const WeatherCard = ({weather, dailyForecast, forecast})=>{
-    console.log(weather)
     
-
     const weatherAnimations = {
         Clear: clear,
         Clouds: clouds,
@@ -23,17 +19,14 @@ export const WeatherCard = ({weather, dailyForecast, forecast})=>{
     }
 
     const data = dailyForecast(forecast)
-    console.log(data)
-
-    
 
     const condition = weather.weather[0].main
 
     return (
-        <div className="w-full max-w-md bg-slate-800/50  rounded-xl p-6 flex flex-col items-center gap-6 transition-all duration-300">
-          <h2 className="text-white text-xl font-semibold">{weather.customName}</h2>
-          <Lottie animationData={weatherAnimations[condition]} style={{width: 200}} loop={true} />
-          <p className="text-white -m-8 text-5xl font-bold">{weather.main.temp.toFixed(1)}°</p>
+        <div className="w-full xl:w-2xl max-w-md xl:max-w-xl bg-slate-800/50  rounded-xl xl:rounded-2xl p-6 xl:p-8 flex flex-col items-center gap-6 xl:gap-8 transition-all duration-300">
+          <h2 className="text-white text-xl xl:text-2xl font-semibold">{weather.customName}</h2>
+          <Lottie className="xl:w-[w260px]" animationData={weatherAnimations[condition]} style={{width: 200}} loop={true} />
+          <p className="text-white -m-8 text-5xl xl:text-6xl font-bold">{weather.main.temp.toFixed(1)}°</p>
           <p className="text-white mt-3 capitalize font-semibold">{weather.weather[0].description}</p>
           <div className="flex -mt-6 top">
             <div className="flex p-2 gap-1">

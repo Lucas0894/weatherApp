@@ -17,22 +17,17 @@ const weatherIconMap = {
   Mist: mist
 };
 
-
 const data = dailyForecast(forecast)
-
-
-      
-        
+console.log(data)
 
     if(!forecast){
         return null
     }
     
-    console.log(forecast)
 
     return (
-        <div className="w-full max-w-md p-4">
-            <h3 className="text-white text-center font-semibold">Pronostico Extendido 5 dias</h3>
+        <div className="w-full xl:w-2xl max-w-md p-4">
+            <h3 className="text-white text-center font-semibold">Pronostico Extendido</h3>
             <div className="flex flex-col gap-3 mt-4">
             {
                 data.slice(1,6).map((day, index)=>

@@ -21,7 +21,6 @@ function App() {
    setLoader(true)
    try {
     const response = await geocoding(city)
-    console.log(response)
     setError(null)
     setCities(response)
   } catch (error) {
@@ -58,15 +57,11 @@ function App() {
             }))
         }
         
-        
-
- console.log(forecast)
 
  const handleSelect = async (city)=>{
   try {
     const response = await getWeather(city.lat, city.lon)
     const getExtended = await getForecast(city.lat, city.lon)
-    console.log(response)
     response.customName = `${city.name}`
     setWeather(response)
     setForecast(getExtended)
@@ -77,25 +72,38 @@ function App() {
   }
  }
 
- const bgGray = "bg-gradient-to-br from-[#2b2e4a] via-[#3a3f6b] to-[#5a5f9f]"
+ console.log(forecast)
 
- console.log(weather)
+
+ const bgGray = "bg-gradient-to-br from-indigo-900 via-blue-900 to-slate-900"
 
   return (
-    <div className={`min-h-screen ${bgGray} flex flex-col items-center gap-6 p-6`}>    
+    <div className={`min-h-dvh relative ${bgGray}`}>
+    <div className= 'fixed inset-0 -z-10 bg-white/10 backdrop-blur-3xl' />
+    <div className={` flex flex-col items-center gap-6 p-6`}>    
       <SearchBar onSearch={handleSearch} cities={cities} handleSelect={handleSelect} />
+
       {loader && <h3 className='text-white'>Buscando ciudad</h3>}
       {error && <h3 className='text-white'>{error}</h3>}
+
+
       {
         weather && !loader && !error && (
+          <div className='flex flex-col xl:flex-row'>
+            <div className='flex-1'>
           <WeatherCard weather={weather} forecast={forecast} dailyForecast={dailyForecast} />
+            </div>
+            {
+              forecast && (
+                <div className='flex-1'>
+                <Forecast forecast={forecast} dailyForecast={dailyForecast} />
+                </div>
+              )
+            }
+          </div>
         )
       }
-      {
-        forecast && weather && (
-          <Forecast forecast={forecast} dailyForecast={dailyForecast} />
-        )
-      }
+    </div>
     </div>
   )
 }
