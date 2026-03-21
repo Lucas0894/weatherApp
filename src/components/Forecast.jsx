@@ -30,7 +30,7 @@ console.log(data)
             <h3 className="text-white text-center font-semibold">Pronostico Extendido</h3>
             <div className="flex flex-col gap-3 mt-4">
             {
-                data.slice(1,6).map((day, index)=>
+                data.slice(1,5).map((day, index)=>
                     (
                         <div key={index} className="rounded-lg flex items-center justify-between p-6 bg-gray-800/70 ">
                            <img src={weatherIconMap[day.img]} width={28} inline={true} />
