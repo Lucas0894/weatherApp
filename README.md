@@ -1,16 +1,72 @@
-# React + Vite
+# 🌦️ Weather App
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Aplicación del clima desarrollada con React que permite buscar ciudades y obtener información meteorológica en tiempo real utilizando la API de :contentReference[oaicite:0]{index=0} y geocodificación por coordenadas mediante :contentReference[oaicite:1]{index=1}.
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## 🚀 Descripción
 
-## React Compiler
+Esta app permite buscar cualquier ciudad y obtener datos del clima actual y pronóstico extendido.  
+Utiliza coordenadas (latitud y longitud) para mejorar la precisión de los resultados.
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+---
 
-## Expanding the ESLint configuration
+## ⚙️ Funcionalidades
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+- 🔍 Búsqueda de ciudades
+- 📍 Geolocalización por coordenadas (lat/lon)
+- 🌡️ Clima actual (temperatura, mínima y máxima)
+- 🌥️ Iconos dinámicos según condiciones climáticas
+- 📊 Pronóstico extendido
+- ⚡ Interfaz responsive y moderna con Tailwind CSS
+
+---
+
+## 🛠️ Tecnologías utilizadas
+
+- React
+- JavaScript (ES6+)
+- Tailwind CSS
+- Fetch API
+- OpenWeather API
+- RapidAPI (Geocoding)
+
+---
+
+## 🌐 APIs utilizadas
+
+### ☁️ OpenWeather API
+Utilizada para obtener:
+- Clima actual
+- Pronóstico del clima
+- Datos meteorológicos generales
+
+https://openweathermap.org/api
+
+---
+
+### 📍 RapidAPI Geocoding
+Utilizada para convertir nombres de ciudades en coordenadas (latitud y longitud), mejorando la precisión del clima obtenido.
+
+https://rapidapi.com/
+
+---
+
+## 🚀 Repositorio
+
+🔗 https://github.com/Lucas0894/weatherApp
+
+---
+
+## 🌍 Deploy
+
+🔗 https://weather-app-lucas0894s-projects.vercel.app/
+
+---
+
+## ⚙️ Instalación
+
+Clonar el repositorio:
+
+```bash
+git clone https://github.com/Lucas0894/weatherApp.git
