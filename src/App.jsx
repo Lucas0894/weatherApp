@@ -5,7 +5,6 @@ import { WeatherCard } from './components/WeatherCard'
 import { geocoding } from './services/weatherservice'
 import { Forecast } from './components/Forecast'
 
-
 function App() {
   const [weather, setWeather] = useState(null)
   const [error, setError] = useState(null)
