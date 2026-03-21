@@ -1,6 +1,5 @@
 const apiKey = import.meta.env.VITE_API_KEY
 const rapidapiKey = import.meta.env.VITE_RAPIDAPI_KEY
-
 export const geocoding = async (city) => {
 
   const response = await fetch(`https://wft-geo-db.p.rapidapi.com/v1/geo/cities?namePrefix=${encodeURIComponent(city)}&limit=10&languageCode=es`,
