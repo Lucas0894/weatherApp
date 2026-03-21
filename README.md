@@ -1,6 +1,6 @@
 # 🌦️ Weather App
 
-Aplicación del clima desarrollada con React que permite buscar ciudades y obtener información meteorológica en tiempo real utilizando la API de :contentReference[oaicite:0]{index=0} y geocodificación por coordenadas mediante :contentReference[oaicite:1]{index=1}.
+Aplicación del clima desarrollada con React que permite buscar ciudades y obtener información meteorológica en tiempo real y geocodificación por coordenadas.
 
 ---
 
