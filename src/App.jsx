@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { SearchBar } from './components/SearchBar'
 import { WeatherCard } from './components/WeatherCard'
-import { geocoding, getForecast, getWeather } from './services/weatherService'
+import { geocoding, getForecast, getWeather } from './services/weatherservice.js'
 import { Forecast } from './components/Forecast'
 
 function App() {
