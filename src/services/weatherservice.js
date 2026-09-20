@@ -11,7 +11,7 @@ export const geocoding = async (city) => {
       }
     }
   )
-
+//asdfasdf
   const data = await response.json()
 
   if(!data.data) return []
