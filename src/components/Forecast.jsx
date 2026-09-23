@@ -33,7 +33,7 @@ export const Forecast = ({ forecast, dailyForecast }) => {
                 {
                     data.slice(1, 5).map((day, index) =>
                     (
-                        <div key={index} className="rounded-lg flex items-center justify-between p-6 bg-gray-800/70 ">
+                        <div key={index} className="flex items-center justify-between p-6 rounded-xl border border-white/10 bg-white/10 backdrop-blur-md ">
                             <div className="w-14 h-14 shrink-0 flex items-center justify-center">
                                 <Lottie
                                     animationData={weatherIconMap[day.img]}

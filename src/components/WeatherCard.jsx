@@ -23,7 +23,7 @@ export const WeatherCard = ({weather, dailyForecast, forecast})=>{
     const condition = weather.weather[0].main
 
     return (
-        <div className="w-full xl:w-2xl max-w-md xl:max-w-xl bg-slate-800/50  rounded-xl xl:rounded-2xl p-6 xl:p-8 flex flex-col items-center gap-6 xl:gap-8 transition-all duration-300">
+        <div className="w-full xl:w-2xl max-w-md xl:max-w-xl rounded-xl border border-white/10 bg-white/10 backdrop-blur-md xl:rounded-2xl p-6 xl:p-8 flex flex-col items-center gap-6 xl:gap-8 transition-all duration-300">
           <h2 className="text-white text-xl xl:text-2xl font-semibold">{weather.customName}</h2>
           <Lottie className="xl:w-[w260px]" animationData={weatherAnimations[condition]} style={{width: 200}} loop={true} />
           <p className="text-white -m-8 text-5xl xl:text-6xl font-bold">{weather.main.temp.toFixed(1)}°</p>
@@ -46,7 +46,7 @@ export const WeatherCard = ({weather, dailyForecast, forecast})=>{
                 <p className="text-white">Sensación:</p>
                 <p className="text-white">{weather.main.feels_like}°</p>
             </div>
-          <div className="grid grid-cols-2 w-full text-sm rounded-md bg-slate-800/70 backdrop-blur">
+          <div className="grid grid-cols-2 w-full text-sm rounded-xl border border-white/10 bg-white/10 backdrop-blur-md">
             <div className="flex gap-1 border-b border-white/10 p-2">
                 <Droplets className="text-white" size={18} />
                 <p className="text-white">Humedad: </p>    
