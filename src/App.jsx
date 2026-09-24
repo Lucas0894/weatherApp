@@ -1,85 +1,92 @@
-import { useState } from 'react'
-import { SearchBar } from './components/SearchBar'
-import { WeatherCard } from './components/WeatherCard'
-import { geocoding, getForecast, getWeather } from './services/weatherservice.js'
-import { Forecast } from './components/Forecast'
-import sun from "./assets/sun.png"
+import { useState } from "react";
+import { SearchBar } from "./components/SearchBar";
+import { WeatherCard } from "./components/WeatherCard";
+import { geocoding, getForecast, getWeather } from "./services/weatherservice.js";
+import { Forecast } from "./components/Forecast";
+import sun from "./assets/sun.png";
 
 function App() {
-  const [weather, setWeather] = useState(null)
-  const [error, setError] = useState(null)
-  const [loader, setLoader] = useState(false)
-  const [cities, setCities] = useState([])
-  const [forecast, setForecast] = useState(null)
+  const [weather, setWeather] = useState(null);
+  const [error, setError] = useState(null);
+  const [loader, setLoader] = useState(false);
+  const [cities, setCities] = useState([]);
+  const [forecast, setForecast] = useState(null);
 
   const handleSearch = async (city) => {
     if (!city.trim()) {
-      return
+      return;
     }
-    setWeather(null)
-    setLoader(true)
+
+    setWeather(null);
+    setLoader(true);
+
     try {
-      const response = await geocoding(city)
-      setError(null)
-      setCities(response)
+      const response = await geocoding(city);
+      setError(null);
+      setCities(response);
     } catch (error) {
-      setError('Ciudad no encontrada')
+      setError("Ciudad no encontrada");
     } finally {
-      setLoader(false)
+      setLoader(false);
     }
-  }
+  };
 
   const dailyForecast = (fore) => {
-    const result = {}
+    const result = {};
+
     fore.list.forEach((item) => {
-      const date = item.dt_txt.split(" ")[0]
+      const date = item.dt_txt.split(" ")[0];
+
       if (!result[date]) {
         result[date] = {
           date,
           img: item.weather[0].main,
           pop: item.pop,
           max: item.main.temp_max,
-          min: item.main.temp_min
-        }
+          min: item.main.temp_min,
+        };
       } else {
-        result[date].min = Math.min(result[date].min, item.main.temp_min)
-        result[date].max = Math.max(result[date].max, item.main.temp_max)
+        result[date].min = Math.min(
+          result[date].min,
+          item.main.temp_min
+        );
+
+        result[date].max = Math.max(
+          result[date].max,
+          item.main.temp_max
+        );
       }
-    })
+    });
+
     return Object.entries(result).map(([date, temps]) => ({
       date,
       pop: temps.pop,
       img: temps.img,
       temp_min: temps.min,
-      temp_max: temps.max
-
-    }))
-  }
-
+      temp_max: temps.max,
+    }));
+  };
 
   const handleSelect = async (city) => {
     try {
-      const response = await getWeather(city.lat, city.lon)
-      const getExtended = await getForecast(city.lat, city.lon)
-      response.customName = `${city.name}`
-      setWeather(response)
-      setForecast(getExtended)
+      const response = await getWeather(city.lat, city.lon);
+      const getExtended = await getForecast(city.lat, city.lon);
+
+      response.customName = `${city.name}`;
+
+      setWeather(response);
+      setForecast(getExtended);
     } catch (error) {
-      setError("No se encontro lo seleccionado")
+      setError("No se encontró lo seleccionado");
     } finally {
-      setCities([])
+      setCities([]);
     }
-  }
+  };
 
-  console.log(forecast)
-
-
-  const bgGray = "bg-gradient-to-br from-indigo-900 via-blue-900 to-slate-900"
-
+  const bgGray = "bg-gradient-to-br from-slate-950 via-slate-900 to-gray-950";
   return (
     <div className={`min-h-dvh relative ${bgGray}`}>
-
-      <div className="fixed inset-0 -z-10 bg-white/10 backdrop-blur-3xl" />
+      <div className="fixed inset-0 -z-10 bg-slate-900/20 backdrop-blur-3xl" />
 
       <div className="flex flex-col items-center gap-6 p-6">
 
@@ -90,7 +97,7 @@ function App() {
               Weather <span className="text-violet-400">App</span>
             </h1>
 
-            <p className="mt-3 max-w-xl text-base text-white/80 md:text-lg">
+            <p className="mt-3 max-w-xl text-base text-white/70 md:text-lg">
               Consultá el clima actual y el pronóstico de los próximos días
               en cualquier ciudad del mundo.
             </p>
@@ -107,38 +114,38 @@ function App() {
               <img src={sun} alt="weather" />
             </div>
 
-            <p className="text-sm text-white/70">
+            <p className="text-sm text-white/50">
               Buscá una ciudad para conocer su clima
             </p>
 
             <div className="mt-10 grid w-full max-w-3xl grid-cols-1 gap-4 md:grid-cols-3">
 
-              <div className="rounded-xl border border-white/10 bg-white/10 p-5 backdrop-blur-md">
+              <div className="rounded-xl border border-white/10 bg-white/5 p-5 backdrop-blur-md">
                 <h3 className="font-semibold text-white">
                   Temperatura
                 </h3>
 
-                <p className="mt-1 text-sm text-white/60">
+                <p className="mt-1 text-sm text-white/50">
                   Conocé la temperatura actual
                 </p>
               </div>
 
-              <div className="rounded-xl border border-white/10 bg-white/10 p-5 backdrop-blur-md">
+              <div className="rounded-xl border border-white/10 bg-white/5 p-5 backdrop-blur-md">
                 <h3 className="font-semibold text-white">
                   Pronóstico
                 </h3>
 
-                <p className="mt-1 text-sm text-white/60">
+                <p className="mt-1 text-sm text-white/50">
                   Mirá el clima de los próximos días
                 </p>
               </div>
 
-              <div className="rounded-xl border border-white/10 bg-white/10 p-5 backdrop-blur-md">
+              <div className="rounded-xl border border-white/10 bg-white/5 p-5 backdrop-blur-md">
                 <h3 className="font-semibold text-white">
                   Condiciones
                 </h3>
 
-                <p className="mt-1 text-sm text-white/60">
+                <p className="mt-1 text-sm text-white/50">
                   Humedad, viento y más
                 </p>
               </div>
@@ -146,7 +153,6 @@ function App() {
             </div>
           </div>
         )}
-
 
         {weather && (
           <div className="flex w-full justify-center">
@@ -170,9 +176,8 @@ function App() {
           </h3>
         )}
 
-
         {weather && !loader && !error && (
-          <div className="flex flex-col xl:flex-row">
+          <div className="flex flex-col xl:flex-row gap-6 w-full max-w-7xl ">
 
             <div className="flex-1">
               <WeatherCard
@@ -196,7 +201,8 @@ function App() {
 
       </div>
     </div>
-  )
+  );
 }
 
-export default App
+export default App;
+
