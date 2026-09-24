@@ -17,7 +17,7 @@ export const Forecast = ({ forecast, dailyForecast }) => {
         Snow: snow,
         Mist: mist
     }
-
+    
     const data = dailyForecast(forecast)
 
     if (!forecast) {
