@@ -17,8 +17,26 @@ export const Forecast = ({ forecast, dailyForecast }) => {
         Snow: snow,
         Mist: mist
     }
-    
+
     const data = dailyForecast(forecast)
+    console.log(forecast)
+
+    const hourlyForecast = forecast.list.map((item) => {
+        return {
+            date: item.dt_txt,
+            temp: item.main.temp
+        }
+    })
+
+    const hourlyData = hourlyForecast.slice(0, 8)
+
+    const temps = hourlyData.map((item) => item.temp)
+
+    const maxTemp = Math.max(...temps)
+
+    const minTemp = Math.min(...temps)
+
+    console.log(hourlyData)
 
     if (!forecast) {
         return null
