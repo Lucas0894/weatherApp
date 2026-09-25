@@ -36,6 +36,18 @@ export const Forecast = ({ forecast, dailyForecast }) => {
 
     const minTemp = Math.min(...temps)
 
+    const height = 200
+
+    const width = 400
+
+    const points = temps.map((temp, index)=>{
+        const x = (index / (temps.length - 1)) * width
+        const y = height - (temp - minTemp) / (maxTemp - minTemp) * height
+        return { x , y }
+    })
+
+    console.log(points)
+
     console.log(hourlyData)
 
     if (!forecast) {
