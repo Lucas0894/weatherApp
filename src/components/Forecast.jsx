@@ -46,6 +46,10 @@ export const Forecast = ({ forecast, dailyForecast }) => {
         return { x , y }
     })
 
+    const pointString = points.map((point)=>{
+        return `${point.x},${point.y}`
+    }).join(" ")
+
     console.log(points)
 
     console.log(hourlyData)
