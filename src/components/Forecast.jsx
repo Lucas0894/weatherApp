@@ -19,6 +19,7 @@ export const Forecast = ({ forecast, dailyForecast }) => {
     }
 
     const data = dailyForecast(forecast)
+    console.log(forecast)
 
     const hourlyForecast = forecast.list.map((item) => {
         return {
@@ -31,11 +32,16 @@ export const Forecast = ({ forecast, dailyForecast }) => {
 
     const temps = hourlyData.map((item) => item.temp)
 
+    const hours = hourlyData.map((item) => {
+        const hour = new Date(item.date).getHours()
+        return hour
+    })
+
     const maxTemp = Math.max(...temps)
 
     const minTemp = Math.min(...temps)
 
-    const height = 200
+    const height = 230
 
     const width = 500
 
@@ -51,18 +57,23 @@ export const Forecast = ({ forecast, dailyForecast }) => {
         if (index === 0) {
             return `M ${point.x} ${point.y}`
         }
-
-        const previous = points[index - 1]
-
-        const midX = (previous.x + point.x) / 2
-        const midY = (previous.y + point.y) / 2
-
-        return ` ${acc} Q ${previous.x} ${previous.y}, ${midX} ${midY} `
+        
+        const prevPoint = points[index - 1]
+        const nextPoint = points[index + 1]
+        
+        const controlX1 = prevPoint.x + (point.x - (index > 1 ? points[index - 2].x : prevPoint.x)) / 6
+        const controlY1 = prevPoint.y + (point.y - (index > 1 ? points[index - 2].y : prevPoint.y)) / 6
+        
+        const controlX2 = point.x - (nextPoint ? (nextPoint.x - prevPoint.x) / 6 : 0)
+        const controlY2 = point.y - (nextPoint ? (nextPoint.y - prevPoint.y) / 6 : 0)
+        
+        return `${acc} C ${controlX1} ${controlY1}, ${controlX2} ${controlY2}, ${point.x} ${point.y}`
     }, "")
 
-    const lastPoint = points[points.length - 1]
-    const finalPoint = `${path} T ${lastPoint.x} ${lastPoint.y}`
+    console.log(points)
 
+
+    console.log(hourlyData)
 
     if (!forecast) {
         return null
@@ -72,7 +83,58 @@ export const Forecast = ({ forecast, dailyForecast }) => {
         <div className="w-full max-w-md xl:max-w-xl p-0">
             <h3 className="text-white text-center font-semibold">Pronóstico Extendido</h3>
             <div className="flex flex-col gap-3 mt-4">
-
+                <div className="bg-white/6 backdrop-blur-md rounded-xl border border-white/10 p-6">
+                    <h4 className="text-white/70 text-xs font-semibold uppercase tracking-wider mb-4">Pronóstico Horario</h4>
+                    <svg
+                        width={width}
+                        height={height}
+                        viewBox={`0 0 ${width} ${height}`}
+                        preserveAspectRatio="none"
+                        style={{ width: "100%", height: "auto" }}
+                    > <path
+                            d={path}
+                            stroke="rgb(59, 130, 246)"
+                            fill="none"
+                            strokeWidth="2.5"
+                            strokeLinecap="round"
+                            strokeLinejoin="round" />
+                        {points.map((point, index) => (
+                            <g key={index}>
+                                <circle
+                                    cx={point.x}
+                                    cy={point.y}
+                                    r="5"
+                                    fill="rgb(59, 130, 246)"
+                                    opacity="0.9" />
+                                <circle
+                                    cx={point.x}
+                                    cy={point.y}
+                                    r="2.5"
+                                    fill="white" />
+                                <text
+                                    x={point.x}
+                                    y={point.y - 16}
+                                    fill="rgb(147, 197, 253)"
+                                    fontSize="13"
+                                    fontWeight="600"
+                                    textAnchor="middle"
+                                    dominantBaseline="baseline">
+                                    {Math.round(temps[index])}°
+                                </text>
+                                <text
+                                    x={point.x}
+                                    y={height - 8}
+                                    fill="white"
+                                    fontSize="11"
+                                    opacity="0.5"
+                                    textAnchor="middle"
+                                    fontWeight="400">
+                                    {hours[index]}h
+                                </text>
+                            </g>
+                        ))}
+                    </svg>
+                </div>
                 {
                     data.slice(1, 5).map((day, index) => (
                         <div key={index} className="flex items-center justify-between p-5 rounded-xl border border-white/10 bg-white/6 backdrop-blur-md">
