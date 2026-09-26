@@ -38,19 +38,34 @@ export const Forecast = ({ forecast, dailyForecast }) => {
 
     const height = 200
 
-    const width = 400
+    const width = 500
 
-    const points = temps.map((temp, index)=>{
-        const x = (index / (temps.length - 1)) * width
-        const y = height - (temp - minTemp) / (maxTemp - minTemp) * height
-        return { x , y }
+    const padding = 30
+
+    const points = temps.map((temp, index) => {
+        const x = padding + (index / (temps.length - 1)) * (width - padding * 2)
+        const y = height - padding - ((temp - minTemp) / (maxTemp - minTemp)) * (height - padding * 2)
+        return { x, y }
     })
 
-    const pointString = points.map((point)=>{
-        return `${point.x},${point.y}`
-    }).join(" ")
+    const path = points.reduce((acc, point, index) => {
+        if (index === 0) {
+            return `M ${point.x} ${point.y}`
+        }
+
+        const previous = points[index - 1]
+
+        const midX = (previous.x + point.x) / 2
+        const midY = (previous.y + point.y) / 2
+
+        return ` ${acc} Q ${previous.x} ${previous.y}, ${midX} ${midY} `
+    }, "")
+
+    const lastPoint = points[points.length - 1]
+    const finalPoint = `${path} T ${lastPoint.x} ${lastPoint.y}`
 
     console.log(points)
+
 
     console.log(hourlyData)
 
@@ -61,8 +76,8 @@ export const Forecast = ({ forecast, dailyForecast }) => {
     return (
         <div className="w-full max-w-md xl:max-w-xl p-0">
             <h3 className="text-white text-center font-semibold">Pronóstico Extendido</h3>
-
             <div className="flex flex-col gap-3 mt-4">
+                
                 {
                     data.slice(1, 5).map((day, index) => (
                         <div key={index} className="flex items-center justify-between p-5 rounded-xl border border-white/10 bg-white/6 backdrop-blur-md">
