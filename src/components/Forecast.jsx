@@ -86,7 +86,7 @@ export const Forecast = ({ forecast, dailyForecast }) => {
                 <div className="bg-white/6 backdrop-blur-md rounded-xl border border-white/10 p-6">
                     <h4 className="text-white/70 text-xs font-semibold uppercase tracking-wider mb-4">Pronóstico Horario</h4>
                     <div className="w-full overflow-x-auto pb-1">
-                        <div className="min-w-[520px]">
+                        <div className="min-w-130">
                             <svg
                                 width={width}
                                 height={height}
