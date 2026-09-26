@@ -85,55 +85,60 @@ export const Forecast = ({ forecast, dailyForecast }) => {
             <div className="flex flex-col gap-3 mt-4">
                 <div className="bg-white/6 backdrop-blur-md rounded-xl border border-white/10 p-6">
                     <h4 className="text-white/70 text-xs font-semibold uppercase tracking-wider mb-4">Pronóstico Horario</h4>
-                    <svg
-                        width={width}
-                        height={height}
-                        viewBox={`0 0 ${width} ${height}`}
-                        preserveAspectRatio="none"
-                        style={{ width: "100%", height: "auto" }}
-                    > <path
-                            d={path}
-                            stroke="rgb(59, 130, 246)"
-                            fill="none"
-                            strokeWidth="2.5"
-                            strokeLinecap="round"
-                            strokeLinejoin="round" />
-                        {points.map((point, index) => (
-                            <g key={index}>
-                                <circle
-                                    cx={point.x}
-                                    cy={point.y}
-                                    r="5"
-                                    fill="rgb(59, 130, 246)"
-                                    opacity="0.9" />
-                                <circle
-                                    cx={point.x}
-                                    cy={point.y}
-                                    r="2.5"
-                                    fill="white" />
-                                <text
-                                    x={point.x}
-                                    y={point.y - 16}
-                                    fill="rgb(147, 197, 253)"
-                                    fontSize="13"
-                                    fontWeight="600"
-                                    textAnchor="middle"
-                                    dominantBaseline="baseline">
-                                    {Math.round(temps[index])}°
-                                </text>
-                                <text
-                                    x={point.x}
-                                    y={height - 8}
-                                    fill="white"
-                                    fontSize="11"
-                                    opacity="0.5"
-                                    textAnchor="middle"
-                                    fontWeight="400">
-                                    {hours[index]}h
-                                </text>
-                            </g>
-                        ))}
-                    </svg>
+                    <div className="w-full overflow-x-auto pb-1">
+                        <div className="min-w-[520px]">
+                            <svg
+                                width={width}
+                                height={height}
+                                viewBox={`0 0 ${width} ${height}`}
+                                preserveAspectRatio="none"
+                                style={{ width: "100%", height: "auto" }}
+                            > 
+                                <path
+                                    d={path}
+                                    stroke="rgb(59, 130, 246)"
+                                    fill="none"
+                                    strokeWidth="2.5"
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round" />
+                                {points.map((point, index) => (
+                                    <g key={index}>
+                                        <circle
+                                            cx={point.x}
+                                            cy={point.y}
+                                            r="5"
+                                            fill="rgb(59, 130, 246)"
+                                            opacity="0.9" />
+                                        <circle
+                                            cx={point.x}
+                                            cy={point.y}
+                                            r="2.5"
+                                            fill="white" />
+                                        <text
+                                            x={point.x}
+                                            y={point.y - 20}
+                                            fill="rgb(147, 197, 253)"
+                                            fontSize="15"
+                                            fontWeight="600"
+                                            textAnchor="middle"
+                                            dominantBaseline="baseline">
+                                            {Math.round(temps[index])}°
+                                        </text>
+                                        <text
+                                            x={point.x}
+                                            y={height - 12}
+                                            fill="white"
+                                            fontSize="12"
+                                            opacity="0.6"
+                                            textAnchor="middle"
+                                            fontWeight="400">
+                                            {hours[index]}h
+                                        </text>
+                                    </g>
+                                ))}
+                            </svg>
+                        </div>
+                    </div>
                 </div>
                 {
                     data.slice(1, 5).map((day, index) => (
