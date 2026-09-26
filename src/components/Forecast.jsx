@@ -87,7 +87,7 @@ export const Forecast = ({ forecast, dailyForecast }) => {
             <h3 className="text-white text-center font-semibold">Pronóstico Extendido</h3>
             <div className="flex flex-col gap-3 mt-4">
                 <div className="bg-white/6 backdrop-blur-md rounded-xl border border-white/10 p-6">
-                    <h4 className="text-white/70 text-xs font-semibold uppercase tracking-wider mb-4">Pronóstico Horario</h4>
+                    <h4 className="text-white/70 text-xs font-semibold uppercase tracking-wider mb-4">Pronóstico por Hora</h4>
                     <div className="w-full overflow-x-auto pb-1">
                         <div className="min-w-130">
                             <svg
