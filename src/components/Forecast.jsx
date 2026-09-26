@@ -24,7 +24,8 @@ export const Forecast = ({ forecast, dailyForecast }) => {
     const hourlyForecast = forecast.list.map((item) => {
         return {
             date: item.dt_txt,
-            temp: item.main.temp
+            temp: item.main.temp,
+            weather: item.weather[0].main
         }
     })
 
@@ -36,6 +37,8 @@ export const Forecast = ({ forecast, dailyForecast }) => {
         const hour = new Date(item.date).getHours()
         return hour
     })
+
+    const weatherByHour = hourlyData.map((item) => item.weather)
 
     const maxTemp = Math.max(...temps)
 
@@ -57,16 +60,16 @@ export const Forecast = ({ forecast, dailyForecast }) => {
         if (index === 0) {
             return `M ${point.x} ${point.y}`
         }
-        
+
         const prevPoint = points[index - 1]
         const nextPoint = points[index + 1]
-        
+
         const controlX1 = prevPoint.x + (point.x - (index > 1 ? points[index - 2].x : prevPoint.x)) / 6
         const controlY1 = prevPoint.y + (point.y - (index > 1 ? points[index - 2].y : prevPoint.y)) / 6
-        
+
         const controlX2 = point.x - (nextPoint ? (nextPoint.x - prevPoint.x) / 6 : 0)
         const controlY2 = point.y - (nextPoint ? (nextPoint.y - prevPoint.y) / 6 : 0)
-        
+
         return `${acc} C ${controlX1} ${controlY1}, ${controlX2} ${controlY2}, ${point.x} ${point.y}`
     }, "")
 
@@ -93,7 +96,7 @@ export const Forecast = ({ forecast, dailyForecast }) => {
                                 viewBox={`0 0 ${width} ${height}`}
                                 preserveAspectRatio="none"
                                 style={{ width: "100%", height: "auto" }}
-                            > 
+                            >
                                 <path
                                     d={path}
                                     stroke="rgb(59, 130, 246)"
