@@ -19,7 +19,6 @@ export const Forecast = ({ forecast, dailyForecast }) => {
     }
 
     const data = dailyForecast(forecast)
-    console.log(forecast)
 
     const hourlyForecast = forecast.list.map((item) => {
         return {
@@ -64,10 +63,6 @@ export const Forecast = ({ forecast, dailyForecast }) => {
     const lastPoint = points[points.length - 1]
     const finalPoint = `${path} T ${lastPoint.x} ${lastPoint.y}`
 
-    console.log(points)
-
-
-    console.log(hourlyData)
 
     if (!forecast) {
         return null
@@ -77,7 +72,7 @@ export const Forecast = ({ forecast, dailyForecast }) => {
         <div className="w-full max-w-md xl:max-w-xl p-0">
             <h3 className="text-white text-center font-semibold">Pronóstico Extendido</h3>
             <div className="flex flex-col gap-3 mt-4">
-                
+
                 {
                     data.slice(1, 5).map((day, index) => (
                         <div key={index} className="flex items-center justify-between p-5 rounded-xl border border-white/10 bg-white/6 backdrop-blur-md">
