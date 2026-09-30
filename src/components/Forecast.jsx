@@ -25,7 +25,6 @@ export const Forecast = ({ forecast, dailyForecast }) => {
     }
 
     const data = dailyForecast(forecast)
-    console.log(forecast)
 
     const hourlyForecast = forecast.list.map((item) => {
         return {
@@ -79,10 +78,6 @@ export const Forecast = ({ forecast, dailyForecast }) => {
         return `${acc} C ${controlX1} ${controlY1}, ${controlX2} ${controlY2}, ${point.x} ${point.y}`
     }, "")
 
-    console.log(points)
-
-
-    console.log(hourlyData)
 
     if (!forecast) {
         return null
