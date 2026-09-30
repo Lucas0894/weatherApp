@@ -4,6 +4,9 @@ import sun from "../animtations/clear.json"
 import thunderstorm from "../animtations/storm.json"
 import snow from "../animtations/snow.json"
 import mist from "../animtations/mist.json"
+import drizzle from "../animtations/drizzle.json"
+import colder from "../animtations/colder.json"
+import heat from "../animtations/heat.json"
 import Lottie from "lottie-react"
 import raindrop from "../animtations/raindrop.json"
 
@@ -15,7 +18,10 @@ export const Forecast = ({ forecast, dailyForecast }) => {
         Rain: rain,
         Thunderstorm: thunderstorm,
         Snow: snow,
-        Mist: mist
+        Mist: mist,
+        Drizzle: drizzle,
+        Colder: colder,
+        Heat: heat
     }
 
     const data = dailyForecast(forecast)
@@ -44,11 +50,11 @@ export const Forecast = ({ forecast, dailyForecast }) => {
 
     const minTemp = Math.min(...temps)
 
-    const height = 230
+    const height = 320
 
     const width = 500
 
-    const padding = 30
+    const padding = 60
 
     const points = temps.map((temp, index) => {
         const x = padding + (index / (temps.length - 1)) * (width - padding * 2)
@@ -127,9 +133,23 @@ export const Forecast = ({ forecast, dailyForecast }) => {
                                             dominantBaseline="baseline">
                                             {Math.round(temps[index])}°
                                         </text>
+                                        <foreignObject
+                                            x={point.x - 15}
+                                            y={height - 50}
+                                            width="30"
+                                            height="30">
+                                            <div style={{ width: "100%", height: "100%" }}>
+                                                <Lottie
+                                                    animationData={weatherIconMap[weatherByHour[index]] || sun}
+                                                    loop
+                                                    autoplay
+                                                    style={{ width: "100%", height: "100%" }}
+                                                />
+                                            </div>
+                                        </foreignObject>
                                         <text
                                             x={point.x}
-                                            y={height - 12}
+                                            y={height - 5}
                                             fill="white"
                                             fontSize="12"
                                             opacity="0.6"
