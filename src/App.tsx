@@ -1,18 +1,24 @@
 import { useState } from "react";
 import { SearchBar } from "./components/SearchBar";
 import { WeatherCard } from "./components/WeatherCard";
-import { geocoding, getForecast, getWeather } from "./services/weatherservice.js";
 import { Forecast } from "./components/Forecast";
+import { geocoding, getForecast, getWeather } from "./services/weatherservice";
 import sun from "./assets/sun.png";
+import type {
+  CityOption,
+  DailyForecastItem,
+  ForecastApiResponse,
+  WeatherApiResponse,
+} from "./types";
 
 function App() {
-  const [weather, setWeather] = useState(null);
-  const [error, setError] = useState(null);
+  const [weather, setWeather] = useState<WeatherApiResponse | null>(null);
+  const [error, setError] = useState<string | null>(null);
   const [loader, setLoader] = useState(false);
-  const [cities, setCities] = useState([]);
-  const [forecast, setForecast] = useState(null);
+  const [cities, setCities] = useState<CityOption[]>([]);
+  const [forecast, setForecast] = useState<ForecastApiResponse | null>(null);
 
-  const handleSearch = async (city) => {
+  const handleSearch = async (city: string) => {
     if (!city.trim()) {
       return;
     }
@@ -24,15 +30,18 @@ function App() {
       const response = await geocoding(city);
       setError(null);
       setCities(response);
-    } catch (error) {
+    } catch {
       setError("Ciudad no encontrada");
     } finally {
       setLoader(false);
     }
   };
 
-  const dailyForecast = (fore) => {
-    const result = {};
+  const dailyForecast = (fore: ForecastApiResponse): DailyForecastItem[] => {
+    const result: Record<
+      string,
+      { date: string; img: string; pop: number; max: number; min: number }
+    > = {};
 
     fore.list.forEach((item) => {
       const date = item.dt_txt.split(" ")[0];
@@ -40,21 +49,14 @@ function App() {
       if (!result[date]) {
         result[date] = {
           date,
-          img: item.weather[0].main,
+          img: item.weather[0]?.main ?? "Clear",
           pop: item.pop,
           max: item.main.temp_max,
           min: item.main.temp_min,
         };
       } else {
-        result[date].min = Math.min(
-          result[date].min,
-          item.main.temp_min
-        );
-
-        result[date].max = Math.max(
-          result[date].max,
-          item.main.temp_max
-        );
+        result[date].min = Math.min(result[date].min, item.main.temp_min);
+        result[date].max = Math.max(result[date].max, item.main.temp_max);
       }
     });
 
@@ -67,16 +69,16 @@ function App() {
     }));
   };
 
-  const handleSelect = async (city) => {
+  const handleSelect = async (city: CityOption) => {
     try {
       const response = await getWeather(city.lat, city.lon);
       const getExtended = await getForecast(city.lat, city.lon);
 
-      response.customName = `${city.name}`;
+      response.customName = city.name;
 
       setWeather(response);
       setForecast(getExtended);
-    } catch (error) {
+    } catch {
       setError("No se encontró lo seleccionado");
     } finally {
       setCities([]);
@@ -84,22 +86,21 @@ function App() {
   };
 
   const bgGray = "bg-gradient-to-br from-slate-950 via-slate-900 to-gray-950";
+
   return (
     <div className={`min-h-dvh relative ${bgGray}`}>
       <div className="fixed inset-0 -z-10 bg-slate-900/20 backdrop-blur-3xl" />
 
       <div className="flex flex-col items-center gap-6 p-6">
-
         {!weather && !loader && !error && (
           <div className="flex w-full max-w-4xl flex-col items-center text-center">
-
             <h1 className="mt-10 text-4xl font-bold text-white md:text-5xl">
               Weather <span className="text-violet-400">App</span>
             </h1>
 
             <p className="mt-3 max-w-xl text-base text-white/70 md:text-lg">
-              Consultá el clima actual y el pronóstico de los próximos días
-              en cualquier ciudad del mundo.
+              Consultá el clima actual y el pronóstico de los próximos días en
+              cualquier ciudad del mundo.
             </p>
 
             <div className="mt-8 flex w-full justify-center">
@@ -119,37 +120,26 @@ function App() {
             </p>
 
             <div className="mt-10 grid w-full max-w-3xl grid-cols-1 gap-4 md:grid-cols-3">
-
               <div className="rounded-xl border border-white/10 bg-white/5 p-5 backdrop-blur-md">
-                <h3 className="font-semibold text-white">
-                  Temperatura
-                </h3>
-
+                <h3 className="font-semibold text-white">Temperatura</h3>
                 <p className="mt-1 text-sm text-white/50">
                   Conocé la temperatura actual
                 </p>
               </div>
 
               <div className="rounded-xl border border-white/10 bg-white/5 p-5 backdrop-blur-md">
-                <h3 className="font-semibold text-white">
-                  Pronóstico
-                </h3>
-
+                <h3 className="font-semibold text-white">Pronóstico</h3>
                 <p className="mt-1 text-sm text-white/50">
                   Mirá el clima de los próximos días
                 </p>
               </div>
 
               <div className="rounded-xl border border-white/10 bg-white/5 p-5 backdrop-blur-md">
-                <h3 className="font-semibold text-white">
-                  Condiciones
-                </h3>
-
+                <h3 className="font-semibold text-white">Condiciones</h3>
                 <p className="mt-1 text-sm text-white/50">
                   Humedad, viento y más
                 </p>
               </div>
-
             </div>
           </div>
         )}
@@ -164,41 +154,27 @@ function App() {
           </div>
         )}
 
-        {loader && (
-          <h3 className="text-white">
-            Buscando ciudad...
-          </h3>
-        )}
+        {loader && <h3 className="text-white">Buscando ciudad...</h3>}
 
-        {error && (
-          <h3 className="text-white">
-            {error}
-          </h3>
-        )}
+        {error && <h3 className="text-white">{error}</h3>}
 
         {weather && !loader && !error && (
           <div className="flex flex-col xl:flex-row gap-6 w-full max-w-7xl ">
-
             <div className="flex-1">
               <WeatherCard
                 weather={weather}
-                forecast={forecast}
+                forecast={forecast as ForecastApiResponse}
                 dailyForecast={dailyForecast}
               />
             </div>
 
             {forecast && (
               <div className="flex-1">
-                <Forecast
-                  forecast={forecast}
-                  dailyForecast={dailyForecast}
-                />
+                <Forecast forecast={forecast} dailyForecast={dailyForecast} />
               </div>
             )}
-
           </div>
         )}
-
       </div>
     </div>
   );
