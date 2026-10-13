@@ -26,6 +26,7 @@ Utiliza coordenadas (latitud y longitud) para mejorar la precisión de los resul
 
 - React
 - JavaScript (ES6+)
+- Typescript
 - Tailwind CSS
 - Fetch API
 - OpenWeather API
