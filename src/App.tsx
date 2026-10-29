@@ -170,7 +170,12 @@ function App() {
 
             {forecast && (
               <div className="flex-1">
-                <Forecast forecast={forecast} dailyForecast={dailyForecast} />
+                <Forecast
+                  forecast={forecast}
+                  dailyForecast={dailyForecast}
+                  currentTemperature={weather.main.temp}
+                  currentCondition={weather.weather[0]?.main ?? "Clear"}
+                />
               </div>
             )}
           </div>
@@ -181,4 +186,3 @@ function App() {
 }
 
 export default App;
-

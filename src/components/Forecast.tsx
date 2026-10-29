@@ -18,9 +18,16 @@ import type {
 type ForecastProps = {
   forecast: ForecastApiResponse;
   dailyForecast: (forecast: ForecastApiResponse) => DailyForecastItem[];
+  currentTemperature: number;
+  currentCondition: string;
 };
 
-export const Forecast = ({ forecast, dailyForecast }: ForecastProps) => {
+export const Forecast = ({
+  forecast,
+  dailyForecast,
+  currentTemperature,
+  currentCondition,
+}: ForecastProps) => {
   const weatherIconMap: Record<string, unknown> = {
     Clear: sun,
     Clouds: cloudy,
@@ -46,9 +53,15 @@ export const Forecast = ({ forecast, dailyForecast }: ForecastProps) => {
   }));
 
   const hourlyData = hourlyForecast.slice(0, 8);
-  const temps = hourlyData.map((item) => item.temp);
-  const hours = hourlyData.map((item) => new Date(item.date).getHours());
-  const weatherByHour = hourlyData.map((item) => item.weather);
+  const temps = [currentTemperature, ...hourlyData.map((item) => item.temp)];
+  const labels = [
+    "Ahora",
+    ...hourlyData.map((item) => `${new Date(item.date).getHours()}h`),
+  ];
+  const weatherByHour = [
+    currentCondition,
+    ...hourlyData.map((item) => item.weather),
+  ];
 
   if (temps.length === 0) {
     return null;
@@ -158,7 +171,7 @@ export const Forecast = ({ forecast, dailyForecast }: ForecastProps) => {
                       textAnchor="middle"
                       fontWeight="400"
                     >
-                      {hours[index]}h
+                      {labels[index]}
                     </text>
                   </g>
                 ))}
