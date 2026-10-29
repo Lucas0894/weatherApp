@@ -100,7 +100,6 @@ export const Forecast = ({
 
     return `${acc} C ${controlX1} ${controlY1}, ${controlX2} ${controlY2}, ${point.x} ${point.y}`;
   }, "");
-
   return (
     <div className="w-full max-w-md xl:max-w-xl p-0">
       <h3 className="text-white text-center font-semibold">Pronóstico Extendido</h3>
